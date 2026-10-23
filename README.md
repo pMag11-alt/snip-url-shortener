@@ -1,6 +1,5 @@
 # ✂ Snip: URL Shortener with Click Analytics
 
-[![CI](https://github.com/pMag11-alt/snip-url-shortener/actions/workflows/ci.yml/badge.svg)](https://github.com/pMag11-alt/snip-url-shortener/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.160-009688?logo=fastapi&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-003B57?logo=sqlite&logoColor=white)
@@ -25,7 +24,7 @@ HTML/CSS/JavaScript served by the same app. A test suite runs in CI and the serv
 - **Rate limiting**: a sliding-window limiter caps link creation per client IP (`429` with a `Retry-After` header)
 - **Input safety**: only `http(s)` URLs are accepted, reserved paths can't be used as aliases, and links back to the shortener itself are refused
 - **Auto-generated API docs**: Swagger UI at `/docs` and ReDoc at `/redoc`
-- **Tested & containerised**: 23 pytest tests, GitHub Actions CI on Python 3.11 and 3.13, and a Docker image that is smoke-tested in CI
+- **Tested & containerised**: 23 pytest tests and a Dockerfile for one-command deployment
 
 ## Quick start
 
