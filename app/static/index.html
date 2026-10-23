@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Snip · URL Shortener</title>
+  <meta name="description" content="Shorten links and track every click.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✂️</text></svg>">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/"><span class="brand-mark">✂</span> snip</a>
+    <nav>
+      <a href="/docs" target="_blank" rel="noopener">API docs</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Shorten links. <span class="accent">Track every click.</span></h1>
+      <p class="lede">Custom aliases, expiring links, QR codes and per-link analytics, all from one small FastAPI service.</p>
+
+      <form id="shorten-form" class="card form" autocomplete="off">
+        <label class="field field-url">
+          <span>Long URL</span>
+          <input id="url" name="url" type="url" placeholder="https://example.com/a/very/long/link" required>
+        </label>
+        <div class="row">
+          <label class="field">
+            <span>Custom alias <em>(optional)</em></span>
+            <input id="alias" name="alias" type="text" placeholder="my-link" pattern="[A-Za-z0-9_\-]{3,32}" maxlength="32">
+          </label>
+          <label class="field">
+            <span>Expires</span>
+            <select id="expires" name="expires">
+              <option value="">Never</option>
+              <option value="1">In 1 day</option>
+              <option value="7">In 7 days</option>
+              <option value="30">In 30 days</option>
+            </select>
+          </label>
+          <button class="button primary" type="submit">Shorten</button>
+        </div>
+        <p id="form-error" class="error" role="alert" hidden></p>
+      </form>
+
+      <div id="result" class="card result" hidden>
+        <img id="result-qr" class="qr" alt="QR code for the short link" width="112" height="112">
+        <div class="result-body">
+          <span class="muted">Your short link</span>
+          <a id="result-link" class="short-link" target="_blank" rel="noopener"></a>
+          <span id="result-target" class="muted truncate"></span>
+          <div class="actions">
+            <button id="copy-btn" class="button" type="button">Copy</button>
+            <button id="result-stats-btn" class="button ghost" type="button">View stats</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-head">
+        <h2>Recent links</h2>
+        <button id="refresh-btn" class="button ghost small" type="button">Refresh</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Short link</th><th>Destination</th><th class="num">Clicks</th><th>Created</th><th></th></tr>
+          </thead>
+          <tbody id="links-body"></tbody>
+        </table>
+      </div>
+      <p id="empty-state" class="muted empty" hidden>No links yet. Shorten your first URL above.</p>
+    </section>
+
+    <section id="stats" class="card" hidden>
+      <div class="section-head">
+        <h2>Analytics for <span id="stats-code" class="mono"></span></h2>
+        <button id="stats-close" class="button ghost small" type="button">Close</button>
+      </div>
+      <p id="stats-target" class="muted truncate"></p>
+      <div class="stats-grid">
+        <div class="stat-tile">
+          <span class="muted">Total clicks</span>
+          <strong id="stats-total">0</strong>
+        </div>
+        <div class="chart-card">
+          <span class="muted">Last 7 days</span>
+          <div id="stats-chart" class="bar-chart"></div>
+        </div>
+      </div>
+      <div class="breakdowns">
+        <div><h3>Referrers</h3><ul id="stats-referrers" class="breakdown"></ul></div>
+        <div><h3>Browsers</h3><ul id="stats-browsers" class="breakdown"></ul></div>
+        <div><h3>Devices</h3><ul id="stats-devices" class="breakdown"></ul></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer muted">
+    Built with FastAPI + SQLite · <a href="/docs" target="_blank" rel="noopener">OpenAPI docs</a>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <script src="/static/app.js" type="module"></script>
+</body>
+</html>
